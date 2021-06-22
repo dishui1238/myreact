@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
-// import ReactDOM from "./MyReact/react-dom";
+// import ReactDOM from "react-dom";
+import ReactDOM from "./MyReact/react-dom2";
 // import Component from "./MyReact/Component";
 
-import WordAdder from "./test";
+// import WordAdder from "./test";
 
 import "./index.css";
 
@@ -31,11 +31,11 @@ const jsx = (
     <a href="https://github.com/dishui1238">Github</a>
     <FunctionComponent name="函数组件" />
     <ClassComponent name="类组件" />
-    <WordAdder />
+    {/* <WordAdder />
     <>
       <h1>111</h1>
       <h1>222</h1>
-    </>
+    </> */}
   </div>
 );
 
