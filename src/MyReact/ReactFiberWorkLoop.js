@@ -4,12 +4,14 @@ import {
   updateFunctionComponent,
   updateHostComponent,
 } from "./ReactFiberReconcile";
+import { shouldYield } from "./scheduler";
 import { isFunction, isStringOrNumber } from "./utils";
 
 let nextUnitOfWork = null; // 下一个 fiber 任务
 let wipRoot = null; // wip  work in progress 数据结构 fiber
 
 export function scheduleUpdateOnFiber(fiber) {
+  fiber.alternate = { ...fiber }; // 保存 fiber 更新前的 fiber tree
   wipRoot = fiber;
   wipRoot.sibling = null;
   nextUnitOfWork = wipRoot;
@@ -47,7 +49,7 @@ function performUnitOfWork(workInProgress) {
 
 function workLoop(IdleDeadline) {
   // 有下⼀个任务，并且当前帧还没有结束
-  while (nextUnitOfWork && IdleDeadline.timeRemaining() > 1) {
+  while (nextUnitOfWork && !shouldYield()) {
     // 执行当前 fiber ，返回下一个 fiber
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
   }
