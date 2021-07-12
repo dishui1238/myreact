@@ -25,19 +25,17 @@ function FunctionComponent(props) {
     <div className="border">
       <button
         onClick={() => {
-          console.log(count);
           setCount(count + 1);
         }}
       >
-        {count}
+        {"useState" + count + ""}
       </button>
       <button
         onClick={() => {
-          console.log(count2);
           setCount2(count2 + 1);
         }}
       >
-        {count2}
+        {"useReducer" + count2 + ""}
       </button>
       <p>{props.name}</p>
     </div>

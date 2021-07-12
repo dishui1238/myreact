@@ -6,12 +6,7 @@ import { updateNode, isStringOrNumber, Update } from "./utils";
 export function updateHostComponent(workInProgress) {
   if (!workInProgress.stateNode) {
     workInProgress.stateNode = document.createElement(workInProgress.type);
-    updateNode(
-      workInProgress.stateNode,
-      {},
-      workInProgress.props
-    );
-    console.log(workInProgress)
+    updateNode(workInProgress.stateNode, {}, workInProgress.props);
   }
   reconcileChildren(workInProgress, workInProgress.props.children);
 }
@@ -52,6 +47,9 @@ export function reconcileChildren(workInProgress, children) {
   // 数组，遍历
   for (let i = 0; i < newChildren.length; i++) {
     const child = newChildren[i];
+    if (child === null) {
+      continue;
+    }
 
     const newFiber = createFiber(child, workInProgress);
     const same = sameNode(oldFiber, newFiber);
@@ -65,7 +63,7 @@ export function reconcileChildren(workInProgress, children) {
       });
     }
 
-    // todo: ??
+    // 下一个需要比较的节点
     if (oldFiber) {
       oldFiber = oldFiber.sibling;
     }

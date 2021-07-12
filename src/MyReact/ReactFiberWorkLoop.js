@@ -5,7 +5,13 @@ import {
   updateHostComponent,
 } from "./ReactFiberReconcile";
 import { shouldYield } from "./scheduler";
-import { isFunction, isStringOrNumber } from "./utils";
+import {
+  isFunction,
+  isStringOrNumber,
+  Placement,
+  Update,
+  updateNode,
+} from "./utils";
 
 let nextUnitOfWork = null; // 下一个 fiber 任务
 let wipRoot = null; // wip  work in progress 数据结构 fiber
@@ -49,10 +55,14 @@ function performUnitOfWork(workInProgress) {
 
 function workLoop(IdleDeadline) {
   // 有下⼀个任务，并且当前帧还没有结束
-  while (nextUnitOfWork && !shouldYield()) {
+  while (nextUnitOfWork && IdleDeadline.timeRemaining() > 1) {
     // 执行当前 fiber ，返回下一个 fiber
     nextUnitOfWork = performUnitOfWork(nextUnitOfWork);
   }
+
+  // 更新阶段再次执行
+  requestIdleCallback(workLoop);
+
   if (!nextUnitOfWork && wipRoot) {
     // 提交
     commitRoot();
@@ -71,7 +81,10 @@ function workLoop(IdleDeadline) {
 requestIdleCallback(workLoop);
 
 export function commitRoot() {
-  commitWorker(wipRoot.child);
+  // 函数组件从当前节点提交
+  isFunction(wipRoot.type)
+    ? commitWorker(wipRoot)
+    : commitWorker(wipRoot.child);
   wipRoot = null;
 }
 
@@ -85,10 +98,15 @@ export function commitWorker(workInProgress) {
     parentNodeFiber = parentNodeFiber.return;
   }
 
+  const { flags, stateNode } = workInProgress;
   // 父（祖先）dom节点
   const parentNode = parentNodeFiber.stateNode;
-  if (workInProgress.stateNode) {
-    parentNode.appendChild(workInProgress.stateNode);
+  if (flags & Placement && stateNode) {
+    parentNode.appendChild(stateNode);
+  }
+
+  if (flags & Update && stateNode) {
+    updateNode(stateNode, workInProgress.alternate.props, workInProgress.props);
   }
 
   // step2: commit workInProgress.child

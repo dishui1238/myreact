@@ -46,7 +46,6 @@ function updateHostComponent(vnode) {
 function updateFunctionComponent(vnode) {
   const { type, props } = vnode;
   const cvnode = type(props);
-  console.log("updateFunctionComponent", cvnode);
   return createNode(cvnode);
 }
 
@@ -55,7 +54,6 @@ function updateClassComponent(vnode) {
   const { type, props } = vnode;
   const instance = new type(props);
   const cvnode = instance.render();
-  console.log("updateClassComponent", cvnode);
   return createNode(cvnode);
 }
 
@@ -82,13 +80,32 @@ function reconcileChildren(children, node) {
 
 // 处理属性
 function updateNode(node, props) {
-  const { children, ...resetProps } = props;
-  for (const key in resetProps) {
-    if (Object.hasOwnProperty.call(resetProps, key)) {
-      node[key] = resetProps[key];
-      // node.setAttribute(key, resetProps[key])
+  for (const key in props) {
+    if (key === "children") {
+    } else {
+      // react 中事件是合成事件，事件委托 react16及之前添加单 document 上，之后添加到 container 上
+      if (key.slice(0, 2) === "on") {
+        const eventName = key.slice(2).toLowerCase();
+        node.addEventListener(eventName, props[key]);
+      } else {
+        if (Object.hasOwnProperty.call(props, key)) {
+          node[key] = props[key];
+        }
+      }
     }
   }
+}
+
+export function useState(init) {
+  const setState = () => {};
+
+  return [init, setState];
+}
+
+export function useReducer(init) {
+  const setState = () => {};
+
+  return [init, setState];
 }
 
 const ReactDOM = { render };
