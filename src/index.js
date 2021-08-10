@@ -1,82 +1,40 @@
-import React, { Component } from "react";
-// import ReactDOM from "react-dom";
-import ReactDOM from "./MyReact/react-dom2";
-import { useState, useReducer } from "./MyReact";
-// import Component from "./MyReact/Component";
-
-// import WordAdder from "./test";
-
-import "./index.css";
-
-class ClassComponent extends Component {
-  render() {
-    return (
-      <div className="border">
-        <p>{this.props.name}</p>
-      </div>
-    );
-  }
-}
-
-function FunctionComponent(props) {
-  const [count, setCount] = useState(0);
-  const [count2, setCount2] = useReducer((x) => x + 1, 0);
-  return (
-    <div className="border">
-      <button
-        onClick={() => {
-          setCount(count + 1);
-        }}
-      >
-        {"useState" + count + ""}
-      </button>
-      <button
-        onClick={() => {
-          setCount2(count2 + 1);
-        }}
-      >
-        {"useReducer" + count2 + ""}
-      </button>
-      <p>{props.name}</p>
-    </div>
-  );
-}
-
-const jsx = (
-  <div className="border">
-    <p>这是一个 p 标签</p>
-    <a href="https://github.com/dishui1238">Github</a>
-    <FunctionComponent name="函数组件" />
-    <ClassComponent name="类组件" />
-    {/* <WordAdder />
-    <>
-      <h1>111</h1>
-      <h1>222</h1>
-    </> */}
-  </div>
-);
-
-/**
- * 由编译器引入（禁止自己引入！）import {jsx as _jsx} from 'react/jsx-runtime';
- * {
- *  $$typeof: Symbol(react.element),
- *  key
- *  props: {children: [...], className}
- *  ref
- *  type
- *  _owner
- *  _store
- * }
- *
+/*
+ * @Author: your name
+ * @Date: 2021-08-11 06:09:05
+ * @LastEditTime: 2021-08-11 06:13:37
+ * @LastEditors: Please set LastEditors
+ * @Description: 此文件测试 mini-react
+ * @FilePath: /myreact/src/index1.js
  */
-// console.log(jsx);
-// console.log(document.getElementById("root"));
 
-ReactDOM.render(jsx, document.getElementById("root"));
+// import React from "react";
+import { IndeterminateComponent } from "./Mini-react/ReactWorkTags";
+import { render } from "./Mini-react/ReactFiberWorkLoop";
+import { useReducer } from "./Mini-react/ReactFiberHooks";
 
-// 文本标签 done
-// 原生标签 done
-// 函数组件 done
-// 类组件 done
-// Fragment
-// 逻辑组件 Provider Consumer
+const reducer = (state, action) => {
+  if (action.type === "add") {
+    return state + 1;
+  } else {
+    return state;
+  }
+};
+
+function Counter() {
+  debugger;
+  const [number, setNumber] = useReducer(reducer, 0);
+
+  return <div onClick={() => setNumber({ type: "add" })}>{number}</div>;
+}
+
+// 正常来说我们需要从根节点一直向下构建 fiber
+let workInprogress = {
+  tag: IndeterminateComponent, // 函数组件在初次渲染时
+  type: Counter, // 此组件的具体类型是哪个组件
+  alternate: null, // 上一次渲染的 fiber
+};
+
+render(workInprogress);
+
+// ReactDOM.render(<Counter />, document.getElementById("root"));
+
