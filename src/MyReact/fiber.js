@@ -26,8 +26,8 @@ export function createFiber(vnode, returnFiber) {
     return: returnFiber, // 父fiber
     // 标记节点是什么类型的
     flags: Placement,
-    // 老节点
-    alternate: null,
+
+    alternate: null, // 老节点，上一次渲染的节点
   };
 
   return fiber;
