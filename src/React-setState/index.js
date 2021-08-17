@@ -13,4 +13,4 @@ rootFiber.child = counterFiber;
 counterFiber.return = rootFiber;
 
 counterFiber.stateNode = counterInstance; // fiber 的 stateNode 指向类的实例
-counterInstance._reactInternal = counterFiber; //_reactInternal 指向组件实例对应的 fiber
+counterInstance._reactInternals = counterFiber; //_reactInternal 指向组件实例对应的 fiber
