@@ -2,15 +2,18 @@ import { beginWork } from "./ReactFiberBeginWork";
 
 let workInprogress = null;
 
-// 执行工作单元，每个 fiber 都是一个工作单元
-function perforUnitOfWork(unitOfWork) {
+/**
+ * 执行工作单元，每个 fiber 都是一个工作单元
+ * 从当前Fiber节点开始，使用一个while循环遍历整个FiberTree，由上而下完成每一个Fiber节点的更新
+ */
+function performUnitOfWork(unitOfWork) {
   let current = unitOfWork.alternate; // 更新时是有值得
   return beginWork(current, unitOfWork);
 }
 
 function workLoop(params) {
   while (workInprogress !== null) {
-    workInprogress = perforUnitOfWork(workInprogress);
+    workInprogress = performUnitOfWork(workInprogress);
   }
 }
 

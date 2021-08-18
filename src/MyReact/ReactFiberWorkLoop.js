@@ -23,6 +23,10 @@ export function scheduleUpdateOnFiber(fiber) {
   nextUnitOfWork = wipRoot;
 }
 
+/**
+ * 执行工作单元，每个 fiber 都是一个工作单元
+ * 从当前Fiber节点开始，使用一个while循环遍历整个FiberTree，由上而下完成每一个Fiber节点的更新
+ */
 function performUnitOfWork(workInProgress) {
   const { type } = workInProgress;
   // * 1. 执行当前 fiber
