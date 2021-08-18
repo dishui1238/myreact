@@ -53,7 +53,7 @@ function createUpdate(eventTime, lane) {
   return { eventTime, lane };
 }
 
-function Component(props, context) {
+export function Component(props, context) {
   this.props = props;
   this.context = context;
   this.updater = classComponentUpdater;
