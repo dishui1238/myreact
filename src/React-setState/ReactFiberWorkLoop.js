@@ -19,6 +19,13 @@ export function scheduleUpdateOnFiber(fiber, lane, eventTime) {
   }
 }
 
+export function batchedUpdates(fn) {
+  let preExcutionContext = excutionContext; // 老的执行环境
+  excutionContext |= BatchedContext; // 改成批量模式
+  fn();
+  excutionContext = preExcutionContext; // 改回来
+}
+
 // 开始调度根节点
 function ensureRootIsScheduled(root) {
   const nextLanes = SyncLane;

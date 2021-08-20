@@ -64,5 +64,5 @@ Component.prototype.isReactComponent = {};
 
 Component.prototype.setState = function (partialState, callback) {
   // 将 state 放入队列中
-  this.updater.enqueueSetState(this, partialState, callback, "setState");
+  this.updater.enqueueSetState(this, partialState, callback);
 };
