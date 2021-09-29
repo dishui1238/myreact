@@ -1,7 +1,11 @@
+/**
+ * !此文件测试 mini-react  关于 hooks 的更新顺序
+ */
+
 /*
  * @Author: your name
  * @Date: 2021-08-11 06:09:05
- * @LastEditTime: 2021-08-11 06:13:37
+ * @LastEditTime: 2021-09-29 11:06:08
  * @LastEditors: Please set LastEditors
  * @Description: 此文件测试 mini-react
  * @FilePath: /myreact/src/index1.js

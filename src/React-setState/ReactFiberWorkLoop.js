@@ -33,7 +33,7 @@ function ensureRootIsScheduled(root) {
   let exitingCallbackPriority = root.callbackPriority;
   if (exitingCallbackPriority === newCallbackPriority) {
     // 这里是 --并发模式下，即使在 setState 里也是批量--的原因, 第一次更新不等，第二次更新相等直接 return
-    // 如果这个新的更新和当亲根节点的已经调度的更新想到，就直接返回，服用上次的更新，不用再创建新的更新任务
+    // 如果这个新的更新和当亲根节点的已经调度的更新相等，就直接返回，复用上次的更新，不用再创建新的更新任务
     return;
   }
   scheduleSyncCallback(performSyncWorkOnRoot.bind(null, root));

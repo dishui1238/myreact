@@ -23,7 +23,7 @@ export function beginWork(current, workInProgress) {
       default:
         break;
     }
-  } else {
+  } else { // 初次挂载
     switch (workInProgress.tag) {
       case IndeterminateComponent:
         return mountIndeterminateComponent(
