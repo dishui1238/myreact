@@ -40,7 +40,7 @@ export function beginWork(current, workInProgress) {
 
 // 更新函数组件
 function updateFunctionComponent(current, workInProgress, Component) {
-  let newChildren = renderWithHooks(null, workInProgress, Component);
+  let newChildren = renderWithHooks(current, workInProgress, Component);
   console.log("newChildren", newChildren);
   window.counter = newChildren;
   // 处理子节点
@@ -49,6 +49,13 @@ function updateFunctionComponent(current, workInProgress, Component) {
 }
 
 // 挂载组件
+/**
+ * @description: 挂载组件，组件挂载时会调用里面的 hooks 方法 
+ * @param {*} current
+ * @param {*} workInProgress
+ * @param {*} Component
+ * @return {*}
+ */
 function mountIndeterminateComponent(current, workInProgress, Component) {
   let children = renderWithHooks(null, workInProgress, Component);
   console.log("children", children);

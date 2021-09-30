@@ -11,8 +11,8 @@ function performUnitOfWork(unitOfWork) {
   return beginWork(current, unitOfWork);
 }
 
-function workLoop(params) {
-  while (workInprogress !== null) {
+function workLoop() {
+  while (workInprogress != null) {
     workInprogress = performUnitOfWork(workInprogress);
   }
 }

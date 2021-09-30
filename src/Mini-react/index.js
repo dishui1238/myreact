@@ -14,8 +14,16 @@ const reducer = (state, action) => {
 function Counter() {
   debugger;
   const [number, setNumber] = useReducer(reducer, 0);
+  const [number1, setNumber1] = useReducer(reducer, 1);
+  const [number2, setNumber2] = useReducer(reducer, 2);
 
-  return <div onClick={() => setNumber({ type: "add" })}>{number}</div>;
+  return (
+    <>
+      <div onClick={() => setNumber({ type: "add" })}>{number}</div>
+      <div onClick={() => setNumber1({ type: "add" })}>{number1}</div>
+      <div onClick={() => setNumber2({ type: "add" })}>{number2}</div>
+    </>
+  );
 }
 
 // 正常来说我们需要从根节点一直向下构建 fiber

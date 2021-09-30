@@ -9,6 +9,16 @@ Fiber
 实际上 requestIdleCallback 功能并不稳定，不建议用于生产环境，本例仅用于模拟 React 的思路，React 本身并不是通过 requestIdleCallback 来实现让浏览器在空闲时间渲染工作单元的。
 ```
 
-## TODO： 
+## TODO：
 
 1. React 事件委托
+
+## 修改入口文件
+
+/node_modules/react-scripts/config/paths.js
+
+下修改 appIndexJs
+
+```js
+ appIndexJs: resolveModule(resolveApp, 'src/index'),
+```

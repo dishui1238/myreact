@@ -5,7 +5,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-11 06:09:05
- * @LastEditTime: 2021-09-29 11:06:08
+ * @LastEditTime: 2021-09-30 11:16:54
  * @LastEditors: Please set LastEditors
  * @Description: 此文件测试 mini-react
  * @FilePath: /myreact/src/index1.js
@@ -14,7 +14,7 @@
 // import React from "react";
 import { IndeterminateComponent } from "./Mini-react/ReactWorkTags";
 import { render } from "./Mini-react/ReactFiberWorkLoop";
-import { useReducer } from "./Mini-react/ReactFiberHooks";
+import { useReducer, useState } from "./Mini-react/ReactFiberHooks";
 
 const reducer = (state, action) => {
   if (action.type === "add") {
@@ -27,8 +27,25 @@ const reducer = (state, action) => {
 function Counter() {
   debugger;
   const [number, setNumber] = useReducer(reducer, 0);
+  const [counter, setCounter] = useState(0);
+  const [number1, setNumber1] = useReducer(reducer, 1);
+  const [number2, setNumber2] = useReducer(reducer, 2);
 
-  return <div onClick={() => setNumber({ type: "add" })}>{number}</div>;
+  return (
+    <>
+      <div
+        onClick={() => {
+          debugger;
+          setCounter(counter + 1);
+        }}
+      >
+        {number}
+      </div>
+      <div onClick={() => setNumber({ type: "add" })}>{number}</div>
+      <div onClick={() => setNumber1({ type: "add" })}>{number1}</div>
+      <div onClick={() => setNumber2({ type: "add" })}>{number2}</div>
+    </>
+  );
 }
 
 // 正常来说我们需要从根节点一直向下构建 fiber
@@ -40,5 +57,6 @@ let workInprogress = {
 
 render(workInprogress);
 
-// ReactDOM.render(<Counter />, document.getElementById("root"));
+// window.counter.props.children[0].props.onClick() 触发更新
 
+// ReactDOM.render(<Counter />, document.getElementById("root"));
