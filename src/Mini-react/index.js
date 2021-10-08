@@ -35,4 +35,6 @@ let workInprogress = {
 
 render(workInprogress);
 
+// window.counter.props.children[0].props.onClick() 触发更新
+
 // ReactDOM.render(<Counter />, document.getElementById("root"));
